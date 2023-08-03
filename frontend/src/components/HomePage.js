@@ -22,8 +22,8 @@ const HomePage = () => {
      <Box padding={5} margin={'auto'}>
         <Typography variant='h4' textAlign={'center'}>Latest Releases</Typography>
      </Box>
-     <Box display="flex" width="80%" justifyContent={'center'} flexWrap="wrap">
-        {movies && movies.slice(0,4).map((movie,index)=><MovieItem id={movie.id}
+     <Box display="flex" width="100%" justifyContent={'space-between'} flexWrap="wrap">
+        {movies && movies.slice(0,6).map((movie,index)=><MovieItem id={movie.id}
             title={movie.title}
             posterUrl={movie.posterUrl}
             releaseDate={movie.releaseDate}
