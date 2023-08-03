@@ -56,7 +56,7 @@ export const adminLogin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ id: exisitingAdmin._id }, process.env.SECRET_KEY, {
-        expiresIn: "1d",
+        expiresIn: "7d",
     })
     return res.status(200).json({ message: 'Login successfuly', token, id: exisitingAdmin._id })
 }
