@@ -23,7 +23,7 @@ const movieSchema = new mongoose.Schema({
     },
     bookings:[{
         type:mongoose.Types.ObjectId,
-        ref:'Booking'
+        ref:"Bookings"
     }]
     ,admin:{
         type:mongoose.Types.ObjectId,

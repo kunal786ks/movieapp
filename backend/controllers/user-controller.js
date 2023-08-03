@@ -94,3 +94,16 @@ export const login=async(req,res,next)=>{
     }
     return res.status(200).json({message:"login successfull",id:exisitingUser._id})
 }
+export const getUserById=async(req,res,next)=>{
+    const id=req.params.id;
+    let user;
+    try{
+        user=await User.findById(id)
+    }catch(err){
+        return console.log(err)
+    }
+    if(!user){
+        return res.status(500).json({messgae:'Unexpected error occured'})
+    }
+    return res.status(200).json({user})
+}

@@ -18,9 +18,7 @@ const userSchema=new Schema({
         required:true,
         minLength: 6,
     },
-    bookings:[{type:mongoose.Types.ObjectId,
-    ref:"Booking",
-}]
+    bookings:[{type:mongoose.Types.ObjectId,ref:"Booking"}]
 });
 
 export default mongoose.model('User',userSchema); //this will create the collectiobns of the user
