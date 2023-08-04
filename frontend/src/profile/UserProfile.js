@@ -15,21 +15,18 @@ const UserProfile = () => {
 
     getUserDetails().then(res=>setUser(res.user)).catch(err=>console.log(err))
     
-    // getMovieDetails(id)
-    //   .then((res) => setMovie(res.movie))
-    //   .catch((err) => console.log(err));
-    console.log("weyig")
+    console.log('erd')
   }, [del]);
 
   console.log(bookings);
   // console.log("this is movie",movie)
-  const handleDelete=async (id)=>{
+  const handleDelete=(id)=>{
     
-    await deleteBooking(id).then(res=>console.log(res)).catch(err=>console.log(err))
-    setDel(!del)
-  }
-  const movieName=(id)=>{
-    getMovieDetails(id).then(res=>console.log(res.movie)).catch(err=>console.log(err))
+    deleteBooking(id).then(res=>{
+      console.log(res)
+      setDel(!del)
+    }).catch(err=>console.log(err))
+    
   }
   return (
     <Box width="100%" display={"flex"}>

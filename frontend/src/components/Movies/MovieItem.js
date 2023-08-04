@@ -14,6 +14,7 @@ const MovieItem = ({ title, releaseDate, posterUrl, id }) => {
         getAdminById()
       .then((res) => setAdmin(res.admin))
       .catch((err) => console.log(err));
+      console.log('hghgh')
     },[])
     return (
         <Card sx={{
