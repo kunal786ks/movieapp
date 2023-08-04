@@ -12,6 +12,7 @@ import { adminActions, userActions } from './store';
 import Booking from './components/Bookings/Booking';
 import UserProfile from './profile/UserProfile';
 import AddMovie from './components/Movies/AddMovie';
+import AdminProfile from './profile/AdminProfile';
 
 function App() {
   const dispatch=useDispatch();
@@ -25,7 +26,7 @@ function App() {
     }else if(localStorage.getItem("adminId")){
       dispatch(adminActions.login())
     }
-  },[])
+  },[dispatch])
   return (
     <div>
       {/* header */}
@@ -34,11 +35,18 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/movies' element={<Movies />} />
-          <Route path='/admin' element={<Admin />} />
+          {!isUserLoggedIn && !isAdminLoggedIn && <>{" "}<Route path='/admin' element={<Admin />} />
           <Route path='/auth' element={<Auth />} />
-          <Route path='/booking/:id' element={<Booking />} />
-          <Route path='/add' element={<AddMovie/>}/>
+          </>}
+
+
+         {isUserLoggedIn && !isAdminLoggedIn && <>{" "}<Route path='/booking/:id' element={<Booking />} />
           <Route path='/user' element={<UserProfile/>}/>
+          </>}
+
+
+         {isAdminLoggedIn && !isUserLoggedIn && <><Route path='/add' element={<AddMovie/>}/>
+          <Route path='/user-admin' element={<AdminProfile/>}/></>}
         </Routes>
       </section>
     </div>

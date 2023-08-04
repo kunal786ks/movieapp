@@ -2,7 +2,7 @@ import Admin from "../models/Admin.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 export const addAdmin = async (req, res, next) => {
-    
+
     const { email, password } = req.body;
     if (!email && email.trim() === '' && !password && password.trim() === '') {
         return res.status(422).json({
@@ -62,16 +62,29 @@ export const adminLogin = async (req, res, next) => {
     return res.status(200).json({ message: 'Login successfuly', token, id: exisitingAdmin._id })
 }
 
-export const getAdmins=async(req,res,next)=>{
+export const getAdmins = async (req, res, next) => {
     let admins;
-    try{
-        admins=await Admin.find();
+    try {
+        admins = await Admin.find();
 
-    }catch(err){
+    } catch (err) {
         return console.log(err)
     }
-    if(!admins){
-        return res.status(500).json({message:'internal server error'})
+    if (!admins) {
+        return res.status(500).json({ message: 'internal server error' })
     }
-    return res.status(200).json({admins});
+    return res.status(200).json({ admins });
+}
+export const getAdminById = async (req, res, next) => {
+    const id = req.params.id;
+    let admin;
+    try {
+        admin = await Admin.findById(id).populate("addedMovies")
+    } catch (err) {
+        console.log(err);
+    }
+    if (!admin) {
+        return console.log('cannot find Admin')
+    }
+    return res.status(200).json({ admin })
 }

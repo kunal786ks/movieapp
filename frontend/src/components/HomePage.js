@@ -23,7 +23,7 @@ const HomePage = () => {
         <Typography variant='h4' textAlign={'center'}>Latest Releases</Typography>
      </Box>
      <Box display="flex" width="100%" justifyContent={'space-between'} flexWrap="wrap">
-        {movies && movies.slice(0,6).map((movie,index)=><MovieItem id={movie.id}
+        {movies && movies.slice(0,6).map((movie,index)=><MovieItem id={movie._id}
             title={movie.title}
             posterUrl={movie.posterUrl}
             releaseDate={movie.releaseDate}

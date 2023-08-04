@@ -7,6 +7,7 @@ const UserProfile = () => {
   const [bookings, setBokings] = useState();
   const [movie,setMovie]=useState();
   const [user,setUser]=useState();
+  const [del,setDel]=useState(true)
   useEffect(() => {
     getUserBooking()
       .then((res) => setBokings(res.bookings))
@@ -17,12 +18,15 @@ const UserProfile = () => {
     // getMovieDetails(id)
     //   .then((res) => setMovie(res.movie))
     //   .catch((err) => console.log(err));
-  }, []);
+    console.log("weyig")
+  }, [del]);
 
   console.log(bookings);
   // console.log("this is movie",movie)
-  const handleDelete=(id)=>{
-    deleteBooking(id).then(res=>console.log(res)).catch(err=>console.log(err))
+  const handleDelete=async (id)=>{
+    
+    await deleteBooking(id).then(res=>console.log(res)).catch(err=>console.log(err))
+    setDel(!del)
   }
   const movieName=(id)=>{
     getMovieDetails(id).then(res=>console.log(res.movie)).catch(err=>console.log(err))
@@ -78,7 +82,7 @@ const UserProfile = () => {
               <List>
                 {bookings.map((booking,index)=>(
                   <ListItem sx={{bgcolor:'gray',color:'white',textAlign:'center',margin:1}}>
-                    <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Movie: todo</ListItemText>
+                    <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Movie: {booking.movie.title}</ListItemText>
                     <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Seat: {booking.seatNumber}</ListItemText>
                     <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Date: {new Date(booking.date).toDateString()}</ListItemText>
                     <IconButton onClick={()=>handleDelete(booking._id)}color='error'>
