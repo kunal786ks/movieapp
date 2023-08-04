@@ -33,7 +33,7 @@ const Booking = () => {
       seatNumber: "",
       date: "",
     })
-
+    navigate("/")
   }
 return (
   <div>
