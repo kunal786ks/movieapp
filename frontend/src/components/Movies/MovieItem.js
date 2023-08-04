@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -6,8 +6,15 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import { getAdminById } from '../../api-helpers/api-helper';
 const MovieItem = ({ title, releaseDate, posterUrl, id }) => {
+    const [admin, setAdmin] = useState();
+    useEffect(()=>{
+        getAdminById()
+      .then((res) => setAdmin(res.admin))
+      .catch((err) => console.log(err));
+    },[])
     return (
         <Card sx={{
             margin: 3, width: 250, height: 320, borderRadius: 5, ":hover": {

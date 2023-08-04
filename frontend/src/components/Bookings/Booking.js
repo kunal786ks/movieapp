@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails, newBooking } from "../../api-helpers/api-helper";
 import { Alert, Box, Button, FormLabel, TextField, Typography } from "@mui/material";
 
 const Booking = () => {
+  const navigate=useNavigate();
   const [inputs, setInputs] = useState({
     seatNumber: "",
     date: "",
@@ -32,9 +33,7 @@ const Booking = () => {
       seatNumber: "",
       date: "",
     })
- { <Alert variant="filled" severity="success">
-  This is a success alert — check it out!
-</Alert>}
+
   }
 return (
   <div>
