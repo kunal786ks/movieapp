@@ -1,39 +1,48 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { deleteBooking, getMovieDetails, getUserBooking, getUserDetails } from "../api-helpers/api-helper";
-import { Box, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, IconButton, List, ListItem, ListItemText, Typography, Snackbar, Alert } from "@mui/material";
 import FaceIcon from "@mui/icons-material/Face";
 import DeleteIcon from '@mui/icons-material/Delete';
+
 const UserProfile = () => {
-  const [bookings, setBokings] = useState();
-  const [movie,setMovie]=useState();
-  const [user,setUser]=useState();
-  const [del,setDel]=useState(true)
+  const [bookings, setBokings] = useState([]);
+  const [movie, setMovie] = useState();
+  const [user, setUser] = useState();
+  const [del, setDel] = useState(true);
+  const [showSnackbar, setShowSnackbar] = useState(false); // Define showSnackbar state
+  const [deletedBooking, setDeletedBooking] = useState(null);
+
   useEffect(() => {
     getUserBooking()
       .then((res) => setBokings(res.bookings))
       .catch((err) => console.log(err));
 
-    getUserDetails().then(res=>setUser(res.user)).catch(err=>console.log(err))
-    
-    console.log('erd')
+    getUserDetails().then(res => setUser(res.user)).catch(err => console.log(err));
   }, [del]);
 
-  console.log(bookings);
-  // console.log("this is movie",movie)
-  const handleDelete=(id)=>{
-    
-    deleteBooking(id).then(res=>{
-      console.log(res)
-      setDel(!del)
-    }).catch(err=>console.log(err))
-    
-  }
+  const handleDelete = (id) => {
+    deleteBooking(id)
+      .then((res) => {
+        console.log(res);
+        setDel(!del);
+        setDeletedBooking(res.deletedBooking); // Save the deleted booking details
+        setShowSnackbar(true); // Show the success message
+      })
+      .catch(err => console.log(err));
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShowSnackbar(false); // Close the snackbar
+  };
+
   return (
     <Box width="100%" display={"flex"}>
-      
-        <Fragment>
-          {" "}
-          {user && <Box
+      <Fragment>
+        {user && (
+          <Box
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
@@ -60,15 +69,18 @@ const UserProfile = () => {
             >
               Email: {user.email}
             </Typography>
-          </Box>}
-         {bookings &&  (<Box width="70%" display={"flex"} flexDirection={"column"}>
+          </Box>
+        )}
+        
+        {bookings.length > 0 ? (
+          <Box width="70%" display={"flex"} flexDirection={"column"}>
             <Typography
               variant="h3"
               fontFamily={"verdana"}
               textAlign={"center"}
               padding={2}
             >
-              BooKings
+              Your All Bookings
             </Typography>
             <Box
               margin="auto"
@@ -77,23 +89,32 @@ const UserProfile = () => {
               width="80%"
             >
               <List>
-                {bookings.map((booking,index)=>(
-                  <ListItem sx={{bgcolor:'gray',color:'white',textAlign:'center',margin:1}}>
-                    <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Movie: {booking.movie.title}</ListItemText>
-                    <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Seat: {booking.seatNumber}</ListItemText>
-                    <ListItemText sx={{margin:1,width:'auto',textAlign:'left'}}>Date: {new Date(booking.date).toDateString()}</ListItemText>
-                    <IconButton onClick={()=>handleDelete(booking._id)}color='error'>
-                      <DeleteIcon  />
+                {bookings.map((booking, index) => (
+                  <ListItem key={index} sx={{ bgcolor: 'gray', color: 'white', textAlign: 'center', margin: 1 }}>
+                    <ListItemText sx={{ margin: 1, width: 'auto', textAlign: 'left' }}>Movie: {booking.movie.title}</ListItemText>
+                    <ListItemText sx={{ margin: 1, width: 'auto', textAlign: 'left' }}>Seat: {booking.seatNumber}</ListItemText>
+                    <ListItemText sx={{ margin: 1, width: 'auto', textAlign: 'left' }}>Date: {new Date(booking.date).toDateString()}</ListItemText>
+                    <IconButton onClick={() => handleDelete(booking._id)} color='error'>
+                      <DeleteIcon />
                     </IconButton>
                   </ListItem>
-                  
                 ))}
               </List>
             </Box>
           </Box>
-          )}
-        </Fragment>
-      
+        ):<Typography
+        variant="h3"
+        fontFamily={"verdana"}
+        textAlign={"center"}
+        padding={2}
+      >Add Your Favorite Movie to watch</Typography>}
+      </Fragment>
+      {/* Snackbar to show success message */}
+      <Snackbar open={showSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="success">
+         Your booking has been successfully deleted!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

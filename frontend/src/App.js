@@ -13,6 +13,8 @@ import Booking from './components/Bookings/Booking';
 import UserProfile from './profile/UserProfile';
 import AddMovie from './components/Movies/AddMovie';
 import AdminProfile from './profile/AdminProfile';
+import Warning from './components/Warning';
+import SnackbarComponent from './components/SnackbarComponent';
 
 function App() {
   const dispatch=useDispatch();
@@ -39,9 +41,9 @@ function App() {
           <Route path='/auth' element={<Auth />} />
           </>}
 
-
-         {isUserLoggedIn && !isAdminLoggedIn && <>{" "}<Route path='/booking/:id' element={<Booking />} />
-          <Route path='/user' element={<UserProfile/>}/>
+         
+         {(isUserLoggedIn || isAdminLoggedIn) && <>{" "}<Route path='/booking/:id' element={<Booking />} /></>}
+          {isUserLoggedIn && !isAdminLoggedIn && <><Route path='/user' element={<UserProfile/>}/>
           </>}
 
 
