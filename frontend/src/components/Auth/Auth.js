@@ -12,6 +12,7 @@ const Auth = () => {
     console.log(data);
     dispatch(userActions.login())
     localStorage.setItem("userId",data.id);
+    console.log('successfully logged in')
     navigate('/')
   }
     const getData=(data)=>{

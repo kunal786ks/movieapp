@@ -25,8 +25,9 @@ const Header = () => {
     setSelected(val);
     const movie=movies.find((m)=>m.title===val);
     if(isUserLoggedIn || isAdminLoggedIn){
-      navigate(`/booking/${movie._id}`)
+      navigate(`/booking/${movie?._id}`)
     }
+    setSelected()
   }
   return (
     <AppBar sx={{ bgcolor: 'gray' }} position='sticky'>
