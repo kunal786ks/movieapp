@@ -11,7 +11,7 @@ import {
 import MovieIcon from '@mui/icons-material/Movie';
 import { Box } from '@mui/system';
 import { getAllMovies } from '../api-helpers/api-helper';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminActions, userActions } from '../store';
 
@@ -21,9 +21,8 @@ const Header = () => {
   const [value, setValue] = useState(0);
   const [movies, setMovies] = useState([]);
   const dispatch = useDispatch();
-  const [selected, setSelected] = useState();
+  // const [selected, setSelected] = useState();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     getAllMovies()
@@ -37,7 +36,11 @@ const Header = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setSelected(newValue);
+    // setSelected(newValue);
+    const movie = movies.find((m) => m.title === newValue);
+    if(isUserLoggedIn){
+      navigate(`/booking/${movie?._id}`);
+    }
   };
 
   const handleTabClick = (event, newValue) => {
